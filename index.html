@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<title>Bug 博物馆 · Museum of Bugs</title>
+<meta name="description" content="一座只收藏失败的小型博物馆。把你修过的 bug 收进展柜，为它写一张展签。" />
+<meta name="theme-color" content="#08080a" />
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="assets/icon-512.png" />
+<script src="assets/js/boot.js"></script>
+<link rel="stylesheet" href="assets/css/base.css" />
+<link rel="stylesheet" href="assets/css/layout.css" />
+<link rel="stylesheet" href="assets/css/exhibit.css" />
+<link rel="stylesheet" href="assets/css/modal.css" />
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-cn" data-i18n="brand">Bug 博物馆</span>
+    <span class="brand-en">MUSEUM OF BUGS</span>
+  </div>
+  <div class="topbar-right">
+    <div class="seg" role="group" aria-label="Language">
+      <button type="button" data-lang-btn="zh">中</button>
+      <button type="button" data-lang-btn="en">EN</button>
+    </div>
+    <div class="seg" role="group" aria-label="Style">
+      <button type="button" data-theme-btn="night" data-i18n="theme.night">夜展</button>
+      <button type="button" data-theme-btn="day" data-i18n="theme.day">日展</button>
+    </div>
+    <div class="topmeta">
+      <span data-i18n="count.pre">馆藏</span><b id="stat-count">0</b><span data-i18n="count.unit">件</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <p class="hero-kicker" data-i18n="hero.kicker">EST. 2026 · 一座只收藏失败的小型博物馆</p>
+    <h1 class="hero-title" data-i18n-html="hero.title">每一件藏品<br /><em>都曾被修复</em></h1>
+    <p class="hero-sub" data-i18n-html="hero.sub">把那些让你熬夜的 bug 收进展柜，为它写一张展签。<br class="br-desk" />它们不该被删除，而该被收藏。</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" id="btn-add" type="button" data-i18n="hero.add">入藏一件</button>
+      <button class="btn btn-ghost" id="btn-curate" type="button" data-i18n="hero.curate">策展 · 生成海报</button>
+    </div>
+  </section>
+
+  <section class="gallery-wrap">
+    <div class="gallery-head">
+      <h2 data-i18n="gallery.title">馆 藏 目 录</h2>
+      <span class="gallery-line" aria-hidden="true"></span>
+      <span class="gallery-tip" data-i18n="gallery.tip">点击展品查看展签</span>
+    </div>
+    <div class="gallery" id="gallery"></div>
+
+    <div class="empty" id="empty" hidden>
+      <svg class="empty-art" viewBox="0 0 200 160" aria-hidden="true">
+        <rect x="30" y="120" width="140" height="6" fill="none" stroke="rgba(200,169,106,.35)" stroke-width="1"/>
+        <rect x="58" y="86" width="84" height="34" fill="none" stroke="rgba(200,169,106,.45)" stroke-width="1"/>
+        <rect x="74" y="30" width="52" height="56" fill="none" stroke="rgba(200,169,106,.18)" stroke-width="1" stroke-dasharray="4 6"/>
+        <line x1="100" y1="48" x2="100" y2="68" stroke="rgba(200,169,106,.35)" stroke-width="1"/>
+        <line x1="90" y1="58" x2="110" y2="58" stroke="rgba(200,169,106,.35)" stroke-width="1"/>
+      </svg>
+      <p data-i18n-html="empty.text">本馆尚无藏品。<br />第一件，往往是最难忘的那一件。</p>
+      <button class="btn btn-ghost" id="btn-add-2" type="button" data-i18n="empty.btn">入藏第一件</button>
+    </div>
+  </section>
+
+  <section class="wing">
+    <div class="gallery-head">
+      <h2 data-i18n="wing.title">世 界 厅</h2>
+      <span class="gallery-line" aria-hidden="true"></span>
+      <span class="gallery-tip" data-i18n="wing.tip">外部馆藏 · 可借展</span>
+    </div>
+    <p class="wing-intro" data-i18n="wing.intro">人类历史上最贵的那些失误。它们不属于你，但你一定见过它们的后代。</p>
+    <p class="wing-stats" id="world-stats"></p>
+    <div class="lang-filter" id="lang-filter"></div>
+    <div class="world-grid" id="world-grid"></div>
+    <p class="wing-note" data-i18n="wing.note">以上均为公开历史记录，只述因果，不含任何利用细节。</p>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <p class="foot-lead" data-i18n="foot.lead">关于本馆</p>
+    <p data-i18n="foot.p1">这里只收藏失败。每一件被修掉的 bug 都会被编目、断代、写成展签，然后放进属于你的展柜。世界厅另收一批不属于你的藏品——那些真正改变过行业的事故，你可以把它们借进自己的馆里。</p>
+    <p data-i18n="foot.p2">全部藏品仅保存在你的浏览器本地，不上传、不联网。</p>
+    <p class="foot-dim" data-i18n="foot.dim">Museum of Bugs · Bug 博物馆 · 由 WorkBuddy 制作</p>
+  </div>
+</footer>
+
+<div class="modal" id="m-add" aria-hidden="true">
+  <div class="modal-bg" data-close></div>
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="m-add-title">
+    <button class="modal-x" data-close type="button" aria-label="关闭">×</button>
+    <div class="panel-head">
+      <span class="kicker" data-i18n="add.kicker">入 藏 登 记</span>
+      <h2 id="m-add-title" data-i18n="add.title">新 藏 品</h2>
+      <button class="btn-tiny" id="btn-random" type="button" data-i18n="add.random">随机一件</button>
+    </div>
+
+    <form id="form-add" autocomplete="off" novalidate>
+      <div class="field">
+        <label for="f-name" data-i18n="add.name">藏品名称</label>
+        <input id="f-name" name="name" maxlength="32" data-i18n-ph="add.name.ph" placeholder="例：幽灵空指针" required />
+      </div>
+
+      <div class="field">
+        <label for="f-site" data-i18n="add.site">出土位置</label>
+        <input id="f-site" name="site" maxlength="40" data-i18n-ph="add.site.ph" placeholder="例：用户中心 / 登录模块" required />
+      </div>
+
+      <div class="field">
+        <label><span data-i18n="add.form">形制</span> <span class="hint" data-i18n="add.form.hint">选一个最接近的</span></label>
+        <div class="tags" id="f-tags"></div>
+      </div>
+
+      <div class="field">
+        <label for="f-cause" data-i18n="add.cause">亡故之因</label>
+        <input id="f-cause" name="cause" maxlength="60" data-i18n-ph="add.cause.ph" placeholder="例：调用链第 3 层返回 null" />
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="f-date" data-i18n="add.date">断代</label>
+          <input id="f-date" name="date" type="date" required />
+        </div>
+        <div class="field">
+          <label for="f-fixer"><span data-i18n="add.fixer">修复者</span> <span class="hint" data-i18n="add.fixer.hint">选填</span></label>
+          <input id="f-fixer" name="fixer" maxlength="20" data-i18n-ph="add.fixer.ph" placeholder="留名或留空" />
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-block" type="submit" data-i18n="add.submit">收 入 馆 藏</button>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="m-view" aria-hidden="true">
+  <div class="modal-bg" data-close></div>
+  <div class="modal-panel panel-view" role="dialog" aria-modal="true" aria-labelledby="m-view-title">
+    <button class="modal-x" data-close type="button" aria-label="关闭">×</button>
+    <div id="view-body"></div>
+    <div class="view-actions">
+      <button class="btn btn-primary" id="btn-borrow" type="button" style="display:none">收入我的博物馆</button>
+      <button class="btn btn-primary" id="btn-export" type="button">导出展签图</button>
+      <button class="btn btn-ghost" id="btn-del" type="button">撤出馆藏</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="m-curate" aria-hidden="true">
+  <div class="modal-bg" data-close></div>
+  <div class="modal-panel panel-wide" role="dialog" aria-modal="true" aria-labelledby="m-curate-title">
+    <button class="modal-x" data-close type="button" aria-label="关闭">×</button>
+    <div class="panel-head">
+      <span class="kicker" data-i18n="curate.kicker">策 展</span>
+      <h2 id="m-curate-title" data-i18n="curate.title">挑出 6 件，生成一张海报</h2>
+    </div>
+    <div class="curate-style">
+      <span class="curate-style-label" data-i18n="curate.style">展陈风格</span>
+      <div class="seg" role="group" aria-label="Style">
+        <button type="button" data-theme-btn="night" data-i18n="theme.night">夜展</button>
+        <button type="button" data-theme-btn="day" data-i18n="theme.day">日展</button>
+      </div>
+      <span class="curate-style-hint" data-i18n="curate.style.hint">全站与导出的图同步</span>
+    </div>
+    <div class="pick-grid" id="pick-grid"></div>
+    <p class="pick-hint" data-i18n="curate.hint">点击可增减；海报会按选择顺序排布。</p>
+    <div class="pick-foot">
+      <span class="pick-count"><span id="pick-label" data-i18n="curate.count">已选</span> <b id="pick-n">0</b> / 6</span>
+      <button class="btn btn-primary" id="btn-poster" type="button" disabled>生成海报</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="m-preview" aria-hidden="true">
+  <div class="modal-bg" data-close></div>
+  <div class="modal-panel panel-preview" role="dialog" aria-modal="true" aria-label="预览">
+    <button class="modal-x" data-close type="button" aria-label="关闭">×</button>
+    <img class="preview-img" id="preview-img" alt="" />
+    <p class="preview-hint" data-i18n="preview.hint">图片已生成。长按或右键图片即可保存。</p>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/data.en.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/art.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/render.js"></script>
+<script src="assets/js/exhibit.js"></script>
+<script src="assets/js/form.js"></script>
+<script src="assets/js/curate.js"></script>
+<script src="assets/js/export.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

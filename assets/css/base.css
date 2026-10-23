@@ -1,0 +1,240 @@
+/* 基础层：主题变量、重置、字体、按钮、轻提示
+   两套主题：夜展（黑 + 金）与 日展（纸 + 墨），切换只改 <html data-theme>。 */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  /* 背景与表面 */
+  --bg: #08080a;
+  --bg-soft: #0d0d11;
+  --surface: #15151b;
+  --surface-2: #101015;
+  --card-bg: rgba(255, 255, 255, .026);
+  --card-bg-solid: #15151b;
+  --hairline: rgba(255, 255, 255, .075);
+  --hairline-strong: rgba(255, 255, 255, .13);
+
+  /* 文字 */
+  --text: #e9e4da;
+  --text-strong: #f4eee2;
+  --text-dim: #a49d90;
+  --text-mute: #7b756a;
+
+  /* 主色 */
+  --gold: #c8a96a;
+  --gold-soft: rgba(200, 169, 106, .55);
+  --gold-line: rgba(200, 169, 106, .2);
+  --gold-border: rgba(200, 169, 106, .3);
+  --seal-red: #b5564a;
+
+  /* 展签纸 */
+  --paper: #f2ece1;
+  --paper-ink: #1a1815;
+  --paper-dim: #5f5849;
+  --label-edge: transparent;
+  --label-shadow: none;
+
+  /* 叠层 */
+  --scrim: rgba(4, 4, 6, .82);
+  --toast-bg: rgba(20, 20, 26, .96);
+  --toast-ink: var(--gold);
+  --card-glow: rgba(255, 224, 178, .11);
+  --hero-glow: rgba(200, 169, 106, .085);
+
+  --serif: "Songti SC", "STSong", "Songti TC", "SimSun", "Noto Serif SC", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  --mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+  --maxw: 1080px;
+}
+
+/* ---------------- 日展：纸 + 墨 ---------------- */
+[data-theme="day"] {
+  --bg: #f4f1ea;
+  --bg-soft: #ece7db;
+  --surface: #fffdf8;
+  --surface-2: #fbf8f1;
+  --card-bg: #fffdf8;
+  --card-bg-solid: #fffdf8;
+  --hairline: rgba(31, 28, 23, .13);
+  --hairline-strong: rgba(31, 28, 23, .24);
+
+  --text: #272420;
+  --text-strong: #17150f;
+  --text-dim: #5b554b;
+  --text-mute: #6f6a5e;
+
+  --gold: #8a6d3b;
+  --gold-soft: rgba(138, 109, 59, .78);
+  --gold-line: rgba(31, 28, 23, .16);
+  --gold-border: rgba(138, 109, 59, .45);
+  --seal-red: #a8493c;
+
+  --paper: #ffffff;
+  --paper-ink: #1a1815;
+  --paper-dim: #6f6859;
+  --label-edge: rgba(31, 28, 23, .1);
+  --label-shadow: 0 1px 2px rgba(31, 28, 23, .07);
+
+  --scrim: rgba(74, 68, 55, .42);
+  --toast-bg: #24211b;
+  --toast-ink: #f2ece1;
+  --card-glow: rgba(200, 169, 106, .3);
+  --hero-glow: rgba(200, 169, 106, .16);
+}
+
+html, body { margin: 0; padding: 0; }
+
+[hidden] { display: none !important; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  min-height: 100vh;
+  transition: background-color .35s ease, color .35s ease;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(1100px 560px at 50% -8%, var(--hero-glow), transparent 68%);
+}
+
+.grain {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: .028;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+[data-theme="day"] .grain { opacity: .05; }
+
+/* ---------- 分段开关（主题 / 语言共用） ---------- */
+.seg {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+}
+.seg > * + * { margin-left: 2px; }
+.seg button {
+  font-family: var(--sans);
+  font-size: 10.5px;
+  letter-spacing: .06em;
+  padding: 3px 10px;
+  border: none;
+  border-radius: 999px;
+  background: none;
+  color: var(--text-mute);
+  cursor: pointer;
+  transition: color .22s ease, background .22s ease;
+  white-space: nowrap;
+}
+.seg button:hover { color: var(--gold); }
+.seg button.on {
+  background: var(--gold);
+  color: var(--bg);
+}
+
+/* ---------- 按钮 ---------- */
+.btn {
+  font-family: var(--sans);
+  font-size: 14px;
+  letter-spacing: .1em;
+  padding: 13px 30px;
+  border-radius: 1px;
+  cursor: pointer;
+  transition: all .28s ease;
+  border: 1px solid transparent;
+  background: none;
+  color: var(--text);
+}
+.btn-primary {
+  background: var(--gold);
+  color: #16130d;
+  border-color: var(--gold);
+  font-weight: 500;
+}
+[data-theme="day"] .btn-primary { color: #fbf9f3; }
+.btn-primary:hover { background: #d8bb7c; border-color: #d8bb7c; }
+[data-theme="day"] .btn-primary:hover { background: #7a5f31; border-color: #7a5f31; }
+.btn-primary:disabled {
+  background: transparent;
+  color: var(--text-mute);
+  border-color: var(--hairline);
+  cursor: not-allowed;
+}
+.btn-ghost {
+  border-color: var(--gold-border);
+  color: var(--gold);
+}
+.btn-ghost:hover {
+  border-color: var(--gold);
+  background: rgba(200, 169, 106, .08);
+}
+.btn-block { width: 100%; margin-top: 12px; }
+.btn-tiny {
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: .1em;
+  color: var(--text-mute);
+  background: none;
+  border: none;
+  border-bottom: 1px dashed var(--gold-border);
+  padding: 0 0 2px;
+  cursor: pointer;
+  transition: color .25s;
+}
+.btn-tiny:hover { color: var(--gold); }
+
+/* ---------- 轻提示 ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 40px;
+  z-index: 200;
+  transform: translate(-50%, 14px);
+  padding: 12px 26px;
+  background: var(--toast-bg);
+  border: 1px solid var(--gold-border);
+  border-radius: 2px;
+  font-size: 13px;
+  letter-spacing: .06em;
+  color: var(--toast-ink);
+  opacity: 0;
+  pointer-events: none;
+  transition: all .32s ease;
+  white-space: nowrap;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- 进场动画 ---------- */
+@keyframes rise {
+  from { transform: translateY(16px); }
+  to { transform: translateY(0); }
+}
+
+/* ---------- 英文排版微调 ---------- */
+.lang-en .brand-en { display: none; }
+.lang-en .brand-cn {
+  font-size: 17px;
+  letter-spacing: .04em;
+}
+.lang-en .hero-title { letter-spacing: .012em; }
+.lang-en .hero-kicker { letter-spacing: .18em; }
+.lang-en .gallery-head h2 { letter-spacing: .2em; }
+.lang-en .foot-lead { letter-spacing: .2em; }

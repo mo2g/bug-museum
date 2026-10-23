@@ -1,0 +1,247 @@
+/* 展陈层：个人展柜、世界厅卡片、语言火漆印与筛选条 */
+
+/* ---------- 个人馆藏 ---------- */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(296px, 1fr));
+  grid-gap: 28px;
+}
+
+.vitrine {
+  position: relative;
+  padding: 26px 0 0;
+  background: linear-gradient(180deg, var(--card-bg-solid) 0%, var(--bg-soft) 100%);
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform .4s cubic-bezier(.2, .8, .3, 1), border-color .4s ease;
+  animation: rise .5s cubic-bezier(.2, .8, .3, 1) both;
+}
+.vitrine::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -140px;
+  width: 320px;
+  height: 320px;
+  transform: translateX(-50%);
+  pointer-events: none;
+  background: radial-gradient(circle, var(--card-glow), transparent 62%);
+  transition: opacity .4s;
+  opacity: .7;
+}
+.vitrine:hover {
+  transform: translateY(-5px);
+  border-color: var(--gold-border);
+}
+.vitrine:hover::before { opacity: 1; }
+.vitrine-art {
+  position: relative;
+  height: 208px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.vitrine-art svg { transition: filter .45s ease, transform .5s cubic-bezier(.2, .8, .3, 1); }
+.vitrine:hover .vitrine-art svg {
+  filter: drop-shadow(0 0 16px rgba(200, 169, 106, .45));
+  transform: translateY(-2px);
+}
+.vitrine-label {
+  position: relative;
+  padding: 15px 18px 17px;
+  background: var(--paper);
+  color: var(--paper-ink);
+  border-top: 1px solid var(--label-edge);
+  box-shadow: var(--label-shadow);
+}
+.vno {
+  display: block;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: .16em;
+  color: var(--paper-dim);
+  margin-bottom: 7px;
+}
+.vitrine-label h3 {
+  margin: 0 0 6px;
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: .03em;
+}
+.vera {
+  display: block;
+  font-family: var(--serif);
+  font-size: 11px;
+  letter-spacing: .08em;
+  color: #8a8172;
+}
+
+/* ---------- 空状态 ---------- */
+.empty {
+  padding: 60px 20px 40px;
+  text-align: center;
+  color: var(--text-mute);
+}
+.empty-art { width: 180px; height: 144px; margin-bottom: 22px; opacity: .9; }
+[data-theme="day"] .empty-art { filter: brightness(.5) saturate(.85); }
+.empty p {
+  margin: 0 0 26px;
+  font-family: var(--serif);
+  font-size: 15px;
+  line-height: 2.1;
+  letter-spacing: .06em;
+  color: var(--text-dim);
+}
+
+/* ---------- 语言筛选 ---------- */
+.lang-filter {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -4px -4px 22px;
+}
+.lang-filter > * { margin: 4px; }
+.chip {
+  --chip: var(--gold);
+  font-family: var(--sans);
+  font-size: 11.5px;
+  letter-spacing: .06em;
+  padding: 5px 14px;
+  color: var(--text-dim);
+  background: transparent;
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color .22s ease, border-color .22s ease, background .22s ease;
+}
+.chip:hover { border-color: var(--chip); color: var(--chip); }
+.chip.on {
+  color: var(--bg);
+  background: var(--chip);
+  border-color: var(--chip);
+}
+
+/* ---------- 世界厅卡片 ---------- */
+.world-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 14px;
+}
+.wcard {
+  position: relative;
+  display: grid;
+  grid-template-columns: 66px 1fr;
+  grid-gap: 14px;
+  align-items: center;
+  padding: 14px 16px;
+  background: var(--card-bg);
+  border: 1px solid var(--hairline);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: border-color .3s ease, background .3s ease, transform .3s cubic-bezier(.2, .8, .3, 1);
+  animation: rise .5s cubic-bezier(.2, .8, .3, 1) both;
+}
+.wcard:hover {
+  border-color: var(--gold-border);
+  transform: translateY(-2px);
+}
+.wcard:hover .wcard-art svg { filter: drop-shadow(0 0 12px rgba(200, 169, 106, .45)); }
+.wcard.owned { border-color: var(--gold-border); }
+.wcard-art {
+  width: 66px;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wcard-art svg { transition: filter .4s ease; }
+.wcard-body { min-width: 0; }
+.wcard-top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.wcard-top > * + * { margin-left: 8px; }
+.wyear {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .14em;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+.wform {
+  min-width: 0;
+  font-size: 10px;
+  letter-spacing: .1em;
+  color: var(--text-mute);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.whot {
+  flex-shrink: 0;
+  font-size: 9px;
+  letter-spacing: .1em;
+  color: var(--bg);
+  background: var(--gold);
+  padding: 0 5px;
+  border-radius: 1px;
+}
+.wname {
+  margin: 0 0 4px;
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: .03em;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wsite {
+  margin: 0;
+  font-size: 11px;
+  color: var(--text-mute);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wowned {
+  flex-shrink: 0;
+  font-size: 9px;
+  letter-spacing: .08em;
+  color: var(--gold);
+  opacity: .8;
+  white-space: nowrap;
+}
+
+/* ---------- 语言火漆印：方角表示“分类标签”，圆角留给可点的按钮 ---------- */
+.seal {
+  margin-left: auto;
+  flex-shrink: 0;
+  padding: 1px 6px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  line-height: 13px;
+  letter-spacing: .1em;
+  white-space: nowrap;
+}
+
+/* ---------- 响应式：展陈 ---------- */
+@media (max-width: 720px) {
+  .gallery { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); grid-gap: 16px; }
+  .vitrine { padding-top: 18px; }
+  .vitrine-art { height: 128px; }
+  .vitrine-label { padding: 12px 13px 14px; }
+  .vitrine-label h3 { font-size: 16px; }
+  .world-grid { grid-template-columns: 1fr; grid-gap: 10px; }
+  .wcard { grid-template-columns: 54px 1fr; grid-gap: 12px; padding: 12px 14px; }
+  .wcard-art { width: 54px; height: 54px; }
+  .wname { font-size: 15px; }
+  .chip { font-size: 11px; padding: 4px 12px; }
+}

@@ -1,0 +1,17 @@
+# macOS
+.DS_Store
+
+# 编辑器 / 工具
+.idea/
+.vscode/
+
+# 本地构建产物
+dist/
+*.zip
+
+# 依赖（本项目实际为零依赖，仅作兜底）
+node_modules/
+
+# 项目内部记忆与第三方 skill 包，不入库
+.workbuddy/
+.skill/
