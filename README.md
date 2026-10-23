@@ -2,13 +2,13 @@
 
 <img src="assets/icon.svg" width="88" height="88" alt="Museum of Bugs" />
 
-# Bug 博物馆 · Museum of Bugs
+# Bug 博物馆
 
 **把修过的 bug 收进展柜，为它写一张展签。**
 
-*Every bug you fixed deserves a vitrine and a label.*
-
 <sub>纯静态 · 零依赖 · 零构建 · 数据只存在本地</sub>
+
+<sub>[English](README.en.md) · **中文**</sub>
 
 </div>
 
@@ -16,15 +16,13 @@
 
 ---
 
-## 中文
-
-### 这是什么
+## 这是什么
 
 Bug 博物馆是一个只收藏失败的线上展厅。修完一个坑，趁记忆还热，用一分钟把它登记入藏——起名、选形制、填一句死因——系统会按年份自动断代，写出一段馆藏说明，再用程序化生成的几何图形把它铸成一件「文物」，摆进你的展柜。
 
 它想说的其实很简单：**那些让你熬夜的东西，不该被随手删掉，而该被留下。**
 
-### 长什么样
+## 长什么样
 
 | 单件展签 | 世界厅 |
 |:---:|:---:|
@@ -32,7 +30,7 @@ Bug 博物馆是一个只收藏失败的线上展厅。修完一个坑，趁记�
 | **日展（纸 + 墨）** | **策展海报** |
 | ![日展](submission/screenshots/04-day.png) | ![海报](submission/screenshots/06-poster.png) |
 
-### 主要功能
+## 主要功能
 
 - **入藏登记** —— 19 种形制（空指针 / 时区 / 并发 / 玄学 / 内存耗尽 / 供应链……），每种配一句文言描述和默认死因，选一个就能自动填好。
 - **自动展签** —— 按年份断代（太古·前 Web 纪 → 当下·AI 协同时代），拼出一段馆藏说明。
@@ -41,7 +39,7 @@ Bug 博物馆是一个只收藏失败的线上展厅。修完一个坑，趁记�
 - **世界厅** —— 27 件真实事故，覆盖 9 种语言，可筛选、可「借展」进自己的馆，和你的 bug 并排挂。
 - **中英双语 · 夜展 / 日展** —— 两个维度自由组合，导出图跟随当前主题。
 
-### 世界厅
+## 世界厅
 
 收录的不是杜撰，是公开历史记录：
 
@@ -58,7 +56,7 @@ Bug 博物馆是一个只收藏失败的线上展厅。修完一个坑，趁记�
 
 每件都只述因果，不含任何利用细节。
 
-### 运行
+## 运行
 
 没有构建步骤，没有依赖。
 
@@ -70,7 +68,7 @@ open index.html
 python3 -m http.server 8080
 ```
 
-### 目录结构
+## 目录结构
 
 ```
 index.html              入口
@@ -84,7 +82,7 @@ submission/             投稿文案与界面截图
 
 **为什么是经典 `<script>` 而不是 ES Module**：ESM 在 `file://` 下会被 CORS 拦掉，双击打开就是白屏。这里用 `window.MOD` 命名空间协作，14 个脚本按依赖顺序加载，双击也能跑。
 
-### 技术要点
+## 技术要点
 
 - 原生 HTML / CSS / JavaScript，**没有任何第三方库、CDN 或构建工具**。
 - 数据存在 `localStorage`；在小工具容器里会写穿到平台 Storage API。
@@ -92,48 +90,12 @@ submission/             投稿文案与界面截图
 - 导出用原生 Canvas；SVG 经 data URI 转成 Image 再 `drawImage`。深色大面积渐变上叠了 3% 噪点，否则会出色带。
 - 兼容基线是 **Chrome 61**（Android 8.1 出厂 WebView），没有 `clamp()`、Flex `gap`、`color-mix()`、`inset`。
 
-### 相关
+## 相关
 
 `BugMuseum-minitool.zip` 是适配小红书小工具容器的打包产物（本地构建，未入库）：容器禁用了 `a[download]`，所以导出改走 `saveImageToPhotosAlbum`，其余环境回退为页内预览。
 
 ---
 
-## English
-
-### What it is
-
-Museum of Bugs is an online exhibition hall that collects nothing but failures. When you finish fixing something, while it is still fresh, you spend a minute filing it in — a name, a form, one line about the cause. The museum dates it, writes a label, and casts it into a geometric artifact generated procedurally, then places it in your vitrine.
-
-The point is simple: **the things that kept you up at night should not be deleted. They should be kept.**
-
-### Features
-
-- **Acquisition** — 19 forms (null pointer, time zone, race condition, the unexplained, out of memory, supply chain…), each with a line of classical-sounding description and a default cause.
-- **Automatic labels** — dated by year into a dynasty timeline, assembled into a short museum note.
-- **Procedural artifacts** — every piece is an SVG sculpture derived from its form and a hash of its id. No image assets anywhere in the project.
-- **Export** — 1000×1400 label cards and 1080×1350 curatorial posters, drawn entirely with the native Canvas API.
-- **World Hall** — 27 real incidents across 9 languages. Filter by language, or borrow a piece into your own collection and hang it next to your own bugs.
-- **Bilingual · two themes** — Chinese/English and Night/Day, freely combined. Exports follow the current theme.
-
-### Run it
-
-No build step, no dependencies.
-
-```bash
-open index.html
-# or
-python3 -m http.server 8080
-```
-
-### Notes
-
-- Plain HTML/CSS/JS with **no third-party libraries, no CDN, no bundler**.
-- Everything is stored in `localStorage`; nothing is uploaded.
-- Classic `<script>` tags with a `window.MOD` namespace rather than ES modules, so the page also works when opened directly from disk.
-- Compatibility baseline is **Chrome 61** (the WebView shipped with Android 8.1): no `clamp()`, no flex `gap`, no `color-mix()`, no `inset`.
-
----
-
 <div align="center">
-<sub>Built for the WorkBuddy 1024 Challenge · 2026</sub>
+<sub>为 WorkBuddy 1024 造物挑战而作 · 2026</sub>
 </div>
