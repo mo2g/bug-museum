@@ -93,6 +93,10 @@ submission/             submission copy and UI screenshots
 
 `BugMuseum-minitool.zip` is the packaged build for the Xiaohongshu mini-tool container (built locally, not committed): the container forbids `a[download]`, so export goes through `saveImageToPhotosAlbum` and falls back to an in-page preview elsewhere.
 
+## License
+
+[MIT](LICENSE). Take it, use it, no attribution required — but if you build a museum of your own, I would like to see it.
+
 ---
 
 <div align="center">

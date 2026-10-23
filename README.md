@@ -94,6 +94,10 @@ submission/             投稿文案与界面截图
 
 `BugMuseum-minitool.zip` 是适配小红书小工具容器的打包产物（本地构建，未入库）：容器禁用了 `a[download]`，所以导出改走 `saveImageToPhotosAlbum`，其余环境回退为页内预览。
 
+## 许可
+
+基于 [MIT License](LICENSE) 开源。代码随取随用，不必署名——但如果你也做了一座博物馆，欢迎告诉我。
+
 ---
 
 <div align="center">
