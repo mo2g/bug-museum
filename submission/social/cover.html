@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { width: 1080px; height: 1440px; overflow: hidden; background: #08080a; }
+  .cover {
+    position: relative; width: 1080px; height: 1440px;
+    background: #08080a;
+    font-family: "Songti SC", "STSong", serif;
+  }
+  .glow {
+    position: absolute; left: 0; right: 0; top: 0; height: 860px;
+    background: radial-gradient(780px 520px at 50% -8%, rgba(200,169,106,.20), transparent 70%);
+  }
+  .grain {
+    position: absolute; inset: 0; opacity: .05; mix-blend-mode: screen;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .top { position: absolute; left: 96px; top: 88px; display: flex; align-items: center; }
+  .top img { width: 68px; height: 68px; display: block; }
+  .kicker {
+    margin-left: 22px;
+    font-family: "SF Mono", monospace; font-size: 17px; letter-spacing: .34em;
+    color: rgba(200,169,106,.62); text-transform: uppercase;
+  }
+  h1 {
+    position: absolute; left: 96px; top: 330px;
+    font-size: 100px; font-weight: 500; line-height: 1.28; letter-spacing: .02em;
+    color: #f2ecdf;
+  }
+  h1 em { font-style: normal; color: #dcc189; }
+  .rule { position: absolute; left: 96px; top: 760px; width: 176px; height: 2px; background: rgba(200,169,106,.55); }
+  .sub {
+    position: absolute; left: 96px; top: 806px;
+    font-size: 32px; line-height: 1.95; letter-spacing: .08em; color: #a49d90;
+  }
+  .stats {
+    position: absolute; left: 96px; top: 1000px;
+    font-family: "SF Mono", monospace; font-size: 20px; letter-spacing: .15em;
+    color: rgba(200,169,106,.6);
+  }
+  .strip {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 384px; overflow: hidden;
+  }
+  .strip img { display: block; width: 1080px; }
+  .strip::before {
+    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 190px; z-index: 2;
+    background: linear-gradient(#08080a 6%, rgba(8,8,10,.86) 38%, rgba(8,8,10,0));
+  }
+  .tag {
+    position: absolute; right: 96px; top: 1000px;
+    font-family: "SF Mono", monospace; font-size: 19px; letter-spacing: .3em;
+    color: rgba(233,228,218,.2);
+  }
+</style></head>
+<body>
+<div class="cover">
+  <div class="glow"></div>
+  <div class="strip"><img src="../screenshots/04-day.png" alt="" /></div>
+  <div class="grain"></div>
+  <div class="top">
+    <img src="../../assets/icon.svg" alt="" />
+    <span class="kicker">Museum of Bugs</span>
+  </div>
+  <h1>我把修过的<br /><em>bug</em> 收进了<br />一座博物馆</h1>
+  <div class="rule"></div>
+  <p class="sub">编号 · 断代 · 展签<br />每一件都不该被删掉</p>
+  <div class="stats">19 种形制 · 27 件真实事故 · 9 种语言</div>
+  <div class="tag">1024</div>
+</div>
+</body></html>
